@@ -1,0 +1,6 @@
+.elements__card {
+  width: 100%;
+  max-width: 282px;
+  object-fit: cover;
+  background-color: #fff;
+}
