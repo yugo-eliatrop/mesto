@@ -1,0 +1,4 @@
+.elements__card-image {
+  width: 100%;
+  object-fit: cover;
+}
