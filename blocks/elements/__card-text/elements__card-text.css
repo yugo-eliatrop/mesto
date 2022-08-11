@@ -4,11 +4,9 @@
   font-weight: 900;
   font-size: 24px;
   line-height: 29px;
-  max-width: 246px;
-  background-image: url(../../../images/smile.svg);
-  background-repeat: no-repeat;
-  background-position: right;
-  margin: 25px 15px 31px 21px;
+  max-width: 190px;
+  margin: 0;
+  padding: 0;
 }
 
 .elements__card-text:last-of-type {
