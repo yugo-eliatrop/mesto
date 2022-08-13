@@ -7,9 +7,6 @@
   width: 100%;
   margin: 0;
   padding: 0;
-}
-
-.elements__card-text:last-of-type {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
