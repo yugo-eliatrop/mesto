@@ -1,6 +1,6 @@
 const popup = document.querySelector('.popup');
 const openButton = document.querySelector('.profile__edit-button');
-const closeButton = document.querySelector('.popup__close');
+const closeButton = document.querySelector('.popup__close-button');
 
 const openPopup = function () {
   popup.classList.add('popup_opened');
@@ -14,7 +14,7 @@ openButton.addEventListener('click', openPopup);
 closeButton.addEventListener('click', closePopup);
 
 const formElement = document.querySelector('.popup__form');
-const nameInput = document.querySelector('.popup__name');
+const nameInput = document.querySelector('.popup__data');
 const jobInput = document.querySelector('.popup__data');
 
 function formSubmitHandler (evt) {
