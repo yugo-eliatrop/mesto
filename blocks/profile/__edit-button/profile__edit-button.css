@@ -6,6 +6,11 @@
   background-image: url(../../../images/edit-vector.svg);
   background-position: center;
   background-repeat: no-repeat;
-  align-self: center;
-  margin: 10px 0 0 18px;
+  align-self: end;
+  margin-bottom: 7px;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
 }

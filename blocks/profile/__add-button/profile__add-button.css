@@ -7,7 +7,18 @@
   background-position: center;
   background-repeat: no-repeat;
   align-self: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: auto;
+  justify-self: end;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+@media screen and (max-width: 700px) {
+  .profile__add-button {
+    width: 282px;
+    justify-self: center;
+    margin-top: 36px;
+  }
 }

@@ -1,9 +1,14 @@
 .elements__button {
-  width: 30%;
+  width: 100%;
   background-image: url(../../../images/smile.svg);
   background-repeat: no-repeat;
   background-position: right;
   background-color: #fff;
   border: 0;
   padding: 0;
+}
+
+.elements__button:hover {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
 }
