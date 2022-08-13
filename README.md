@@ -15,3 +15,4 @@
 * Подключен файл index.js для придания интерактивности странице
 
 #### GitHub Pages
+* [Ссылка на публичный репозиторий]( https://oleg-mkhamadiev-system.github.io/mesto/)
