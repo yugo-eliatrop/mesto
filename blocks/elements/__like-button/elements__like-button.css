@@ -1,4 +1,4 @@
-.elements__button {
+.elements__like-button {
   width: 100%;
   background-image: url(../../../images/smile.svg);
   background-repeat: no-repeat;
@@ -9,6 +9,6 @@
   transition: opacity 0.5s ease;
 }
 
-.elements__button:hover {
+.elements__like-button:hover {
   opacity: 0.5;
 }

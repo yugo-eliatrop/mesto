@@ -8,9 +8,9 @@
   background-repeat: no-repeat;
   align-self: end;
   margin-bottom: 7px;
+  transition: opacity 0.5s ease;
 }
 
 .profile__edit-button:hover {
   opacity: 0.6;
-  transition: opacity 0.5s ease;
 }
