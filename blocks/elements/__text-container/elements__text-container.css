@@ -1,7 +1,6 @@
 .elements__text-container {
-  display: grid;
-  grid-template-columns: 80% 20%;
-  grid-template-rows: auto;
-  padding: 25px 15px 31px 21px;
+  display: flex;
+  flex-direction: row;
+  padding: 22px 20px 24px;
   margin: 0;
 }

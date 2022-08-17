@@ -5,12 +5,12 @@
   font-weight: 400;
   color: #000;
   width: 100%;
-  margin: 54px auto 30px auto;
-  padding-bottom: 13px;
+  margin: 46px auto 44px auto;
+  padding-bottom: 10px;
   border-bottom: 1px solid #000;
   opacity: 0.2;
 }
 
 .popup__data:last-of-type {
-  margin: 0 auto 48px auto;
+  margin: 0 auto 38px auto;
 }
