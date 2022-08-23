@@ -5,12 +5,7 @@
   font-weight: 400;
   color: #000;
   width: 100%;
-  margin: 46px auto 44px auto;
-  padding-bottom: 10px;
+  padding-bottom: 7px;
   border-bottom: 1px solid #000;
   opacity: 0.2;
-}
-
-.popup__data:last-of-type {
-  margin: 0 auto 38px auto;
 }
