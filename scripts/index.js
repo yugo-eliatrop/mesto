@@ -15,6 +15,32 @@ const linkImage = document.querySelector('.popup__input_link_image');
 const elementsCardText = document.querySelector('.elements__card-text');
 const elementsCardImage = document.querySelector('.elements__card-image');
 const ButtonLikeActive = document.querySelector('.elements__like-button_active');
+const defaultCards = [
+  {
+    name: 'Карачаевск',
+    link: 'images/karachaevsk.jpg'
+  },
+  {
+    name: 'Гора Эльбрус',
+    link: 'images/elbrus.jpg'
+  },
+  {
+    name: 'Домбай',
+    link: 'images/dombai.jpg'
+  },
+  {
+    name: 'Гора Эльбрус',
+    link: 'images/elbrus.jpg'
+  },
+  {
+    name: 'Домбай',
+    link: 'images/dombai.jpg'
+  },
+  {
+    name: 'Карачаево-Черкессия',
+    link: 'images/karachaevsk.jpg'
+  }
+];
 const initialCards = [
   {
     name: 'Архыз',
@@ -41,7 +67,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-const templateElement = document.querySelector('.template-elements');
+const templateElement = document.querySelector('.template__elements');
 const popupImages = document.querySelector('.popup__images');
 const ButtonPopupImages = document.querySelector('.popup__images-button')
 const popupImageContent = document.querySelector('.popup__image');
@@ -57,7 +83,6 @@ function closePopup(popupElement) {
 }
 
 function openEditPopup() {
-  console.log('openEditPopup')
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
   openPopup(popupProfile);
@@ -93,37 +118,46 @@ popupCloseButton.addEventListener('click', closePopup(popupNewPlaces));
 
 // функция открытия попапа картнки
 function openPopupImages(name, url) {
-  console.log('openPopupImages', name, url)
   popupImageContent.src = url;
   popupImageContent.alt = name;
   popupFigcaption.textContent = name;
   openPopup(popupImages);
 }
 
+// с помощью метода forEach карточки загружаются при рендеринге
+defaultCards.forEach(openPopupImages);
+
+// создаю пустой контейнер, чтобы вложить карточки в секцию elements
+const cardContainer = document.querySelector('.elements__cards');
+
 // функция добавления карточек и лайка
-function createCards() {
-  const newCardElements = templateElement.content.cloneNode(true);
-  newCardElements.querySelector('.elements__card-text').textContent = name;
-  newCardElements.querySelector('.elements__card-image').src = link;
-  newCardElements.querySelector('.elements__like-button_active').alt = name;
+function createCard(cardData) {
+  const {link, name} = cardData;
+  const newCardElement = templateElement.content.cloneNode(true);
+  newCardElement.querySelector('.elements__card-text').textContent = name;
+  newCardElement.querySelector('.elements__card-image').src = link;
+  newCardElement.querySelector('.elements__like-button_active').alt = name;
+  return newCardElement;
 }
 
-initialCards.forEach(createCards);
-createCards.prepend(newCardElements);
+initialCards.forEach(data => {
+  const newCard = createCard(data)
+cardContainer.prepend(newCard);
+});
 
 // функция добавления и удаления лайка
 function toggleLikeButton() {
-  newCardElements.querySelector('.elements__like-button_active').alt = name;
-  newCardElements.classList.toggle();
+  newCardElement.querySelector('.elements__like-button_active').alt = name;
+  newCardElement.classList.toggle();
 }
 
 // функция закрытия карточки
 function deleteCards() {
-  newCardElements
+  newCardElement
    .querySelector('.elements__delete-button_active')
    .addEventListener('click', (evt) => {
-    const CardElements = evt.target.closest('.elements__card');
-    CardElements(remove);
+    const cardContainer = evt.target.closest('.elements__card');
+    cardContainer(remove);
    })
 }
 
