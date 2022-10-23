@@ -9,38 +9,11 @@ const jobInput = document.querySelector('.popup__input_data_profession');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const profileAddButton = document.querySelector('.profile__add-button');
-const popupNewPlaces = document.querySelector('.popup__elements');
+const popupPlace = document.querySelector('.popup__elements');
 const namePlace = document.querySelector('.popup__input_data_place');
 const linkImage = document.querySelector('.popup__input_link_image');
-const elementsCardText = document.querySelector('.elements__card-text');
-const elementsCardImage = document.querySelector('.elements__card-image');
-const ButtonLikeActive = document.querySelector('.elements__like-button_active');
-const defaultCards = [
-  {
-    name: 'Карачаевск',
-    link: 'images/karachaevsk.jpg'
-  },
-  {
-    name: 'Гора Эльбрус',
-    link: 'images/elbrus.jpg'
-  },
-  {
-    name: 'Домбай',
-    link: 'images/dombai.jpg'
-  },
-  {
-    name: 'Гора Эльбрус',
-    link: 'images/elbrus.jpg'
-  },
-  {
-    name: 'Домбай',
-    link: 'images/dombai.jpg'
-  },
-  {
-    name: 'Карачаево-Черкессия',
-    link: 'images/karachaevsk.jpg'
-  }
-];
+const cardText = document.querySelector('.elements__card-text');
+const cardImage = document.querySelector('.elements__card-image');
 const initialCards = [
   {
     name: 'Архыз',
@@ -69,7 +42,7 @@ const initialCards = [
 ];
 const templateElement = document.querySelector('.template__elements');
 const popupImages = document.querySelector('.popup__images');
-const ButtonPopupImages = document.querySelector('.popup__images-button')
+//const popupImageAdd = document.querySelector('.popup__images_active');
 const popupImageContent = document.querySelector('.popup__image');
 const popupFigcaption = document.querySelector('.popup__figcaption');
 
@@ -89,7 +62,7 @@ function openEditPopup() {
 }
 
 function openAddPopup() {
-  openPopup(popupNewPlaces);
+  openPopup(popupPlace);
 }
 
 function handleSubmitEditForm (evt) {
@@ -101,31 +74,18 @@ function handleSubmitEditForm (evt) {
 
 function handleSubmitAddForm (evt) {
   evt.preventDefault();
-  elementsCardText.textContent = namePlace.value;
-  elementsCardImage.textContent = linkImage.value;
-  closePopup(popupNewPlaces);
+  cardText.textContent = namePlace.value;
+  cardImage.textContent = linkImage.value;
+  closePopup(popupPlace);
 }
 
-profileEditButton.addEventListener('click', openEditPopup);
-formElement.addEventListener('submit', handleSubmitEditForm);
-
-popupCloseButton.addEventListener('click', closePopup(popupProfile));
-
-profileAddButton.addEventListener('click', openAddPopup);
-formElement.addEventListener('submit', handleSubmitAddForm);
-
-popupCloseButton.addEventListener('click', closePopup(popupNewPlaces));
-
 // функция открытия попапа картнки
-function openPopupImages(name, url) {
-  popupImageContent.src = url;
+function openPopupImages(name, link) {
+  popupImageContent.src = link;
   popupImageContent.alt = name;
   popupFigcaption.textContent = name;
   openPopup(popupImages);
-}
-
-// с помощью метода forEach карточки загружаются при рендеринге
-defaultCards.forEach(openPopupImages);
+ }
 
 // создаю пустой контейнер, чтобы вложить карточки в секцию elements
 const cardContainer = document.querySelector('.elements__cards');
@@ -136,36 +96,43 @@ function createCard(cardData) {
   const newCardElement = templateElement.content.cloneNode(true);
   newCardElement.querySelector('.elements__card-text').textContent = name;
   newCardElement.querySelector('.elements__card-image').src = link;
-  newCardElement.querySelector('.elements__like-button_active').alt = name;
+  newCardElement.querySelector('.elements__card-image').alt = name;
+  const cardImage = newCardElement.querySelector('.elements__card-image');
+  cardImage.addEventListener('click', () => {
+    openPopupImages(name, link);
+  });
+  const buttonLike = newCardElement.querySelector('.elements__like-button');
+  buttonLike.addEventListener('click', () => {
+    buttonLike.classList.toggle('elements__like-button_active');
+  });
   return newCardElement;
-}
+  }
 
 initialCards.forEach(data => {
   const newCard = createCard(data)
 cardContainer.prepend(newCard);
 });
 
-// функция добавления и удаления лайка
-function toggleLikeButton() {
-  newCardElement.querySelector('.elements__like-button_active').alt = name;
-  newCardElement.classList.toggle();
-}
-
 // функция закрытия карточки
-function deleteCards() {
+function deleteCard() {
   newCardElement
    .querySelector('.elements__delete-button_active')
    .addEventListener('click', (evt) => {
-    const cardContainer = evt.target.closest('.elements__card');
+    const cardContainer = evt.currentTarget.closest('.elements__card');
     cardContainer(remove);
    })
 }
 
-ButtonPopupImages.addEventListener('click', openPopupImages);
+profileEditButton.addEventListener('click', openEditPopup);
+formElement.addEventListener('submit', handleSubmitEditForm);
+popupCloseButton.addEventListener('click', closePopup(popupProfile));
+popupCloseButton.addEventListener('click', closePopup(popupPlace));
+profileAddButton.addEventListener('click', openAddPopup);
+formElement.addEventListener('submit', handleSubmitAddForm);
+//buttonPopupImage.addEventListener('click', openPopupImage);
 popupCloseButton.addEventListener('click', function () {
   closePopup(popupImages);
 })
-ButtonLikeActive.addEventListener('click', toggleLikeButton);
 
 // обработчик клика навешиваю на картинку в каждой карточке
 //cardImage.addEventListener('click', () =>

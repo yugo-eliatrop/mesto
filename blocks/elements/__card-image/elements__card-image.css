@@ -1,5 +1,6 @@
 .elements__card-image {
-  width: 100%;
+  width: 282px;
+  height: 282px;
   object-fit: cover;
   border-start-start-radius: 4%;
   border-start-end-radius: 4%;
