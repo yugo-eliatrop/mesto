@@ -1,8 +1,8 @@
 // попапы
 const popup = document.querySelector('.popup');
-const popupProfile = document.querySelector('.popup__profile');
-const popupPlace = document.querySelector('.popup__elements');
-const popupImages = document.querySelector('.popup__images');
+const popupProfile = document.querySelector('.popup_content_profile');
+const popupPlace = document.querySelector('.popup_content_elements');
+const popupImages = document.querySelector('.popup_content_images');
 
 // кнопки открытия попапов
 const profileEditButton = document.querySelector('.profile__edit-button');
