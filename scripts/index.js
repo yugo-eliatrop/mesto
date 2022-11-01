@@ -14,19 +14,22 @@ const popupAddCloseButton = popupPlace.querySelector('.popup__close-button');
 const popupImageCloseButton = popupImages.querySelector('.popup__close-button');
 const cardDeleteButton = document.querySelector('.elements__delete-button');
 
-// данные для работы с формами
-const formElement = document.querySelector('.popup__form');
-const nameInput = document.querySelector('.popup__input_data_name');
-const jobInput = document.querySelector('.popup__input_data_profession');
+// форма добавления данных
+const formEditElement = popupProfile.querySelector('.popup__form');
+const nameInput = popupProfile.querySelector('.popup__input_data_name');
+const jobInput = popupProfile.querySelector('.popup__input_data_profession');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
-const namePlace = document.querySelector('.popup__input_data_place');
-const linkImage = document.querySelector('.popup__input_link_image');
+
+// форма добавления новых карточек
+const formNewCardElement = popupPlace.querySelector('.popup__form');
+const namePlace = popupPlace.querySelector('.popup__input_data_place');
+const linkImage = popupPlace.querySelector('.popup__input_link_image');
 const cardText = document.querySelector('.elements__card-text');
 const cardImage = document.querySelector('.elements__card-image');
 
 // данные для работы с тегом template
-const templateElement = document.querySelector('.template__elements');
+const templateElement = document.querySelector('.template__elements').content;
 const initialCards = [
   {
     name: 'Архыз',
@@ -82,12 +85,17 @@ function handleSubmitEditForm (evt) {
   closePopup(popupProfile);
 }
 
+// функция добавления карточек
 function handleSubmitAddForm (evt) {
   evt.preventDefault();
-  cardText.textContent = namePlace.value;
-  cardImage.textContent = linkImage.value;
+  const data = {name: namePlace.value, link: linkImage.value};
+  const newCard = createCard(data);
+  cardContainer.prepend(newCard);
   closePopup(popupPlace);
 }
+
+// создаю пустой контейнер, чтобы вложить карточки в секцию elements
+const cardContainer = document.querySelector('.elements__cards');
 
 // функция открытия попапа картнки
 function openPopupImages(name, link) {
@@ -97,16 +105,15 @@ function openPopupImages(name, link) {
   openPopup(popupImages);
  }
 
-// создаю пустой контейнер, чтобы вложить карточки в секцию elements
-const cardContainer = document.querySelector('.elements__cards');
-
 // функция добавления и удаления карточек, и - лайка
 function createCard(cardData) {
   const {link, name} = cardData;
-  const newCardElement = templateElement.content.cloneNode(true);
+  const newCardElement = templateElement.cloneNode(true);
+  console.log(templateElement);
   newCardElement.querySelector('.elements__card-text').textContent = name;
-  newCardElement.querySelector('.elements__card-image').src = link;
-  newCardElement.querySelector('.elements__card-image').alt = name;
+  const cardImageElement = newCardElement.querySelector('.elements__card-image');
+  cardImageElement.src = link;
+  cardImageElement.alt = name;
   const cardImage = newCardElement.querySelector('.elements__card-image');
   cardImage.addEventListener('click', () => {
     openPopupImages(name, link);
@@ -133,8 +140,8 @@ profileEditButton.addEventListener('click', openEditPopup);
 profileAddButton.addEventListener('click', openAddPopup);
 
 // обработчики на сабмиты
-formElement.addEventListener('submit', handleSubmitEditForm);
-formElement.addEventListener('submit', handleSubmitAddForm);
+formEditElement.addEventListener('submit', handleSubmitEditForm);
+formNewCardElement.addEventListener('submit', handleSubmitAddForm);
 
 // обработчики на закрытие попапов
 popupEditCloseButton.addEventListener('click', () => {

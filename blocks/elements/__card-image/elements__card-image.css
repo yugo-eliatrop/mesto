@@ -5,4 +5,5 @@
   object-position: center 0;
   border-start-start-radius: 4%;
   border-start-end-radius: 4%;
+  cursor: pointer;
 }
