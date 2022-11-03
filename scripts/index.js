@@ -108,8 +108,7 @@ function openPopupImages(name, link) {
 // функция добавления и удаления карточек, и - лайка
 function createCard(cardData) {
   const {link, name} = cardData;
-  const newCardElement = templateElement.cloneNode(true);
-  console.log(templateElement);
+  const newCardElement = templateElement.querySelector('.elements__card').cloneNode(true);
   newCardElement.querySelector('.elements__card-text').textContent = name;
   const cardImageElement = newCardElement.querySelector('.elements__card-image');
   cardImageElement.src = link;
