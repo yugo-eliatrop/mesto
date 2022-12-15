@@ -60,7 +60,7 @@ const popupImageContent = document.querySelector('.popup__image');
 const popupFigcaption = document.querySelector('.popup__figcaption');
 const cardElements = document.querySelector('.elements__card');
 
-function openPopup (popupElement) {
+function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
 }
 
@@ -105,7 +105,7 @@ function openPopupImages(name, link) {
   openPopup(popupImages);
  }
 
-// функция добавления и удаления карточек, и - лайка
+// функция создания и добавления карточек
 function createCard(cardData) {
   const {link, name} = cardData;
   const newCardElement = templateElement.querySelector('.elements__card').cloneNode(true);
@@ -129,20 +129,21 @@ function createCard(cardData) {
   return newCardElement;
   }
 
-initialCards.forEach(data => {
-  const newCard = createCard(data)
-cardContainer.prepend(newCard);
-});
+  initialCards.forEach(data => {
+    const newCard = createCard(data)
+  cardContainer.prepend(newCard);
+  });
+
 
 // обработчики на открытие попапов
 profileEditButton.addEventListener('click', openEditPopup);
 profileAddButton.addEventListener('click', openAddPopup);
 
-// обработчики на сабмиты
+// обработчики на сабмитные кнопки
 formEditElement.addEventListener('submit', handleSubmitEditForm);
 formNewCardElement.addEventListener('submit', handleSubmitAddForm);
 
-// обработчики на закрытие попапов
+// обработчики на закрытие попапов по клику мыши на крестик
 popupEditCloseButton.addEventListener('click', () => {
  closePopup(popupProfile);
 })
@@ -154,3 +155,50 @@ popupAddCloseButton.addEventListener('click', () => {
 popupImageCloseButton.addEventListener('click', () => {
   closePopup(popupImages);
 })
+
+// функция, в которой отслеживаю закрытие попапов по клику на Escape, передаю как аргумент
+document.addEventListener('keydown', function (evt) {
+  if (evt.key == 'Escape') {
+    const popupElement = document.querySelector('.popup_opened');
+    console.log(evt);
+    if (!!popupElement) {
+      //если попап открыт, то при нажатии на esc, вернет true и попап закроется
+      closePopup(popupElement);
+    };
+  };
+});
+
+// навешиваю обработчики на закрытие попапов по клику на оверлэй
+popupProfile.addEventListener('click', function (evt) {
+
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(popupProfile);
+  }
+});
+
+popupPlace.addEventListener('click', function (evt) {
+
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(popupPlace);
+  }
+});
+
+popupImages.addEventListener('click', function (evt) {
+
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(popupImages);
+  }
+});
+
+// объект валидации
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_visible'
+};
+
+// вызываю функцию валидации
+enableValidation(validationConfig);
