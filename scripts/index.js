@@ -105,7 +105,7 @@ function openPopupImages(name, link) {
   openPopup(popupImages);
  }
 
-// функция создания и добавления карточек
+// функция создания карточек
 function createCard(cardData) {
   const {link, name} = cardData;
   const newCardElement = templateElement.querySelector('.elements__card').cloneNode(true);
@@ -156,7 +156,7 @@ popupImageCloseButton.addEventListener('click', () => {
   closePopup(popupImages);
 })
 
-// функция, в которой отслеживаю закрытие попапов по клику на Escape, передаю как аргумент
+// функцию, в которой отслеживаю закрытие попапов по клику на Escape, передаю как аргумент
 document.addEventListener('keydown', function (evt) {
   if (evt.key == 'Escape') {
     const popupElement = document.querySelector('.popup_opened');
@@ -171,21 +171,21 @@ document.addEventListener('keydown', function (evt) {
 // навешиваю обработчики на закрытие попапов по клику на оверлэй
 popupProfile.addEventListener('click', function (evt) {
 
-  if (evt.target.classList.contains('popup_opened')) {
+  if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupProfile);
   }
 });
 
 popupPlace.addEventListener('click', function (evt) {
 
-  if (evt.target.classList.contains('popup_opened')) {
+  if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupPlace);
   }
 });
 
 popupImages.addEventListener('click', function (evt) {
 
-  if (evt.target.classList.contains('popup_opened')) {
+  if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupImages);
   }
 });
