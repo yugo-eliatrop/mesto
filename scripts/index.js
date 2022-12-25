@@ -1,5 +1,4 @@
 // попапы
-const popup = document.querySelector('.popup');
 const popupProfile = document.querySelector('.popup_content_profile');
 const popupPlace = document.querySelector('.popup_content_elements');
 const popupImages = document.querySelector('.popup_content_images');
@@ -8,11 +7,11 @@ const popupImages = document.querySelector('.popup_content_images');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 
-// кнопки закрытия попапов и удаления карточек
-const popupEditCloseButton = popupProfile.querySelector('.popup__close-button');
+// кнопки закрытия попапов
+/* const popupEditCloseButton = popupProfile.querySelector('.popup__close-button');
 const popupAddCloseButton = popupPlace.querySelector('.popup__close-button');
-const popupImageCloseButton = popupImages.querySelector('.popup__close-button');
-const cardDeleteButton = document.querySelector('.elements__delete-button');
+const popupImageCloseButton = popupImages.querySelector('.popup__close-button'); */
+const popupButtonCloseList = document.querySelectorAll('.popup__close-button');
 
 // форма добавления данных
 const formEditElement = popupProfile.querySelector('.popup__form');
@@ -62,10 +61,14 @@ const cardElements = document.querySelector('.elements__card');
 
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
+  // навешиваю обработчик на закрытие открытого попапа по кнопке
+  document.addEventListener('keydown', closeByEsc);
 }
 
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
+  // удаляю обработчик
+  document.removeEventListener('keydown', closeByEsc);
 }
 
 function openEditPopup() {
@@ -92,6 +95,7 @@ function handleSubmitAddForm (evt) {
   const newCard = createCard(data);
   cardContainer.prepend(newCard);
   closePopup(popupPlace);
+  formNewCardElement.reset();
 }
 
 // создаю пустой контейнер, чтобы вложить карточки в секцию elements
@@ -113,8 +117,7 @@ function createCard(cardData) {
   const cardImageElement = newCardElement.querySelector('.elements__card-image');
   cardImageElement.src = link;
   cardImageElement.alt = name;
-  const cardImage = newCardElement.querySelector('.elements__card-image');
-  cardImage.addEventListener('click', () => {
+  cardImageElement.addEventListener('click', () => {
     openPopupImages(name, link);
   });
   const buttonLike = newCardElement.querySelector('.elements__like-button');
@@ -143,48 +146,35 @@ profileAddButton.addEventListener('click', openAddPopup);
 formEditElement.addEventListener('submit', handleSubmitEditForm);
 formNewCardElement.addEventListener('submit', handleSubmitAddForm);
 
-// обработчики на закрытие попапов по клику мыши на крестик
-popupEditCloseButton.addEventListener('click', () => {
- closePopup(popupProfile);
+// обработчик на закрытие попапов по клику мыши на крестик
+popupButtonCloseList.forEach(btn => {
+  const popup = btn.closest('.popup');
+  btn.addEventListener('click', () => closePopup(popup));
 })
 
-popupAddCloseButton.addEventListener('click', () => {
- closePopup(popupPlace);
-})
+// функция закрытия попапов по клику на кнопку Escape
+function closeByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
+  }
+}
 
-popupImageCloseButton.addEventListener('click', () => {
-  closePopup(popupImages);
-})
-
-// функцию, в которой отслеживаю закрытие попапов по клику на Escape, передаю как аргумент
-document.addEventListener('keydown', function (evt) {
-  if (evt.key == 'Escape') {
-    const popupElement = document.querySelector('.popup_opened');
-    console.log(evt);
-    if (!!popupElement) {
-      //если попап открыт, то при нажатии на esc, вернет true и попап закроется
-      closePopup(popupElement);
-    };
-  };
-});
 
 // навешиваю обработчики на закрытие попапов по клику на оверлэй
 popupProfile.addEventListener('click', function (evt) {
-
   if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupProfile);
   }
 });
 
 popupPlace.addEventListener('click', function (evt) {
-
   if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupPlace);
   }
 });
 
 popupImages.addEventListener('click', function (evt) {
-
   if (evt.target.classList.contains('popup__overlay')) {
     closePopup(popupImages);
   }

@@ -1,8 +1,0 @@
-.popup__fieldset {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 17px;
-  border: 0;
-  padding: 0;
-  margin: 0;
-}

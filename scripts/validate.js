@@ -57,11 +57,11 @@ const toggleButtonState = (inputList, submitButton, inactiveButtonClass) => {
 
   if (hasInvalidInput) {
     // если хотя бы один инпут невалидный, кнопка заблокируется
-    submitButton.setAttribute("disabled", true);
+    submitButton.setAttribute('disabled', true);
     submitButton.classList.add(inactiveButtonClass);
   } else {
     // если все инпуты валидны, кнопка разблокируется
-    submitButton.removeAttribute("disabled");
+    submitButton.removeAttribute('disabled');
     submitButton.classList.remove(inactiveButtonClass);
   }
 };
@@ -71,10 +71,6 @@ const setEventListeners = (
   formElement,
   { inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }
 ) => {
-  formElement.addEventListener("submit", (evt) => {
-    // сбрасываю дефолтное состояние сабмиту формы
-    evt.preventDefault();
-  });
   // нахожу у этой формы инпуты и кнопку сабмит
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const submitButton = formElement.querySelector(submitButtonSelector);
@@ -84,7 +80,7 @@ const setEventListeners = (
 
   // на каждый инпут навешиваю слушателя
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", () => {
+    inputElement.addEventListener('input', () => {
       // вызываю функцию, проверяющую инпут на валидность
       checkInputValidity(formElement, inputElement, rest);
       // вызываю функцию разблокировки кнопки при валидности всех инпутов
