@@ -95,6 +95,9 @@ function handleSubmitAddForm (evt) {
   const newCard = createCard(data);
   cardContainer.prepend(newCard);
   closePopup(popupPlace);
+  const button = evt.submitter;
+  button.disabled = true;
+  button.classList.add('popup__save-button_disabled');
   formNewCardElement.reset();
 }
 
