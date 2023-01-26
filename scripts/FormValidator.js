@@ -2,33 +2,35 @@
 export class FormValidator {
 
   constructor(validationConfig, formElement) {
+    // в конструкторе получаю объект валидации и форму, далее работаю с формой
     this._validationConfig = validationConfig;
     this._formElement = formElement;
+    // присваиваю селекторы из объекта валидации контексту this
     this._formSelector = validationConfig.formSelector;
     this._submitButtonSelector = validationConfig.submitButtonSelector;
-    this._inputSelector = validationConfig._inputSelector;
-    this._inputErrorClass = validationConfig._inputErrorClass;
+    this._inputSelector = validationConfig.inputSelector;
+    this._inputErrorClass = validationConfig.inputErrorClass;
     this._errorClass = validationConfig.errorClass;
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
   }
 
   // универсальная функция, показывающая валидность или не валидность инпутов
-  _checkInputValidity (formElement, inputElement) {
+  _checkInputValidity (inputElement) {
   // переменная, содержащая валидность инпута
    const isValid = inputElement.validity.valid;
 
     if (isValid) {
       // если инпут валиден, то спрячю ошибку
-      this._hideInputError(formElement, inputElement);
+      this._hideInputError(inputElement);
     } else {
       // если не валиден, то показываю ошибку
-      this._showInputError(formElement, inputElement, inputElement.validationMessage);
+      this._showInputError(inputElement, inputElement.validationMessage);
     }
   };
 
-  _showInputError (formElement, inputElement, errorMessage) {
+  _showInputError (inputElement, errorMessage) {
     // выбираю элемент ошибки на основе уникального класса
-    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
     // инпуту добавляю тип ошибки
     inputElement.classList.add(this._inputErrorClass);
     // ошибке передаю текст сообщения
@@ -37,8 +39,8 @@ export class FormValidator {
     errorElement.classList.add(this._errorClass);
   };
 
-  _hideInputError (formElement, inputElement) {
-    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  _hideInputError (inputElement) {
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
     // у инпута убираю тип ошибки
     inputElement.classList.remove(this._inputErrorClass);
     // убираю текст ошибки
@@ -47,15 +49,15 @@ export class FormValidator {
     errorElement.classList.remove(this._errorClass);
   };
 
-  // метод содержит в себе то, что имеет невалидный инпут
-  // если какой-нибудь инпут невалидный, вернет true методом some
-  _hasInvalidInput() {
-    this._inputList.some((inputElement) => !inputElement.validity.valid);
-  }
-
   // функция переключения состояния кнопки
   _toggleButtonState () {
-    if (this._hasInvalidInput()) {
+    // переменная содержит в себе то, что имеет невалидный инпут
+    // если какой-нибудь инпут невалидный, вернет true методом some
+    const hasInvalidInput = this._inputList.some(
+      (inputElement) => !inputElement.validity.valid
+    );
+
+    if (hasInvalidInput) {
       // если хотя бы один инпут невалидный, кнопка заблокируется
       this._submitButton.setAttribute('disabled', true);
       this._submitButton.classList.add(this._inactiveButtonClass);
@@ -79,9 +81,9 @@ export class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         // вызываю функцию, проверяющую инпут на валидность
-        this._checkInputValidity(formElement, inputElement);
-        // вызываю функцию разблокировки кнопки при валидности всех инпутов
-        this.toggleButtonState();
+        this._checkInputValidity(inputElement);
+         // вызываю функцию разблокировки кнопки при валидности всех инпутов
+         this._toggleButtonState();
       });
     });
   };
@@ -90,4 +92,11 @@ export class FormValidator {
   enableValidation () {
       this._setEventListeners();
   };
+
+  // метод сброса ошибок и данных инпутов, введенных пользователем
+  resetInputErrors () {
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+  }
 };

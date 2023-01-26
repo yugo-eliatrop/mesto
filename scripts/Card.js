@@ -6,7 +6,6 @@ export default class Card {
     this._link = cardData.link;
     this._templateSelector = templateSelector;
     this._openPopupImages = openPopupImages;
-    //this._handleSubmitAddForm = handleSubmitAddForm;
   }
 
   // получаю данные из разметки
@@ -28,6 +27,11 @@ export default class Card {
     this._element.remove();
     this._element = '';
   }
+
+  /* // метод добавления карточки пользователем
+  _handleUserAddCard () {
+    this._handleSubmitAddForm(this._name, this._link);
+  } */
 
   _setEventListeners() {
     this._cardImage = this._element.querySelector('.elements__card-image');
