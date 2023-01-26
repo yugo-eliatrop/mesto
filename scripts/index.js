@@ -65,7 +65,7 @@ const popupImageContent = document.querySelector('.popup__image');
 const popupFigcaption = document.querySelector('.popup__figcaption');
 
 // создаю пустой контейнер, чтобы вложить карточки в секцию elements
-const cardContainer = document.querySelector('.elements__cards');
+const cardsContainer = document.querySelector('.elements__cards');
 
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
@@ -100,15 +100,27 @@ function handleSubmitEditForm (evt) {
 function handleSubmitAddForm (evt) {
   evt.preventDefault();
   const cardData = {name: namePlace.value, link: linkImage.value};
-  const newCard = new Card(cardData, '.template__elements', openPopupImages);
-  const cardElement = newCard.createCard();
-  cardContainer.prepend(cardElement);
+  addCard(createCard(cardData));
   closePopup(popupPlace);
   const button = evt.submitter;
   button.disabled = true;
   button.classList.add('popup__save-button_disabled');
   formNewCardElement.reset();
 }
+
+function createCard (cardData) {
+  const newCard = new Card(cardData, '.template__elements', openPopupImages);
+  return newCard;
+}
+
+function addCard (newCard) {
+  cardsContainer.prepend(newCard);
+}
+
+initialCards.forEach((cardData) => {
+  createCard(cardData);
+  addCard(newCard);
+});
 
 // функция открытия попапа картинки
 function openPopupImages(name, link) {
@@ -119,14 +131,14 @@ function openPopupImages(name, link) {
  }
 
 // функция добавления карточек с помощью Card.js
-initialCards.forEach((cardData) => {
+/* initialCards.forEach((cardData) => {
   // создаю экземпляр карточки
   const newCard = new Card(cardData, '.template__elements', openPopupImages);
   // создаю карточку и возвращаю наружу
   const cardElement = newCard.createCard();
   // добавляю карточки в DOM
-  cardContainer.prepend(cardElement);
-});
+  cardsContainer.prepend(cardElement);
+}); */
 
 // обработчики на открытие попапов
 profileEditButton.addEventListener('click', openEditPopup);
