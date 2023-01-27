@@ -9,9 +9,10 @@
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   border: none;
+  transition: opacity 0.5s ease;
 }
 
 .elements__delete-button:hover {
-  color: rgba(255, 255, 255, 0.6);
+  opacity: 0.6;
   cursor: pointer;
 }

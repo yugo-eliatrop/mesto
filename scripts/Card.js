@@ -28,11 +28,6 @@ export default class Card {
     this._element = '';
   }
 
-  /* // метод добавления карточки пользователем
-  _handleUserAddCard () {
-    this._handleSubmitAddForm(this._name, this._link);
-  } */
-
   _setEventListeners() {
     this._cardImage = this._element.querySelector('.elements__card-image');
     this._buttonLike = this._element.querySelector('.elements__like-button');

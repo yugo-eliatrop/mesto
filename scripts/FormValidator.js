@@ -3,7 +3,6 @@ export class FormValidator {
 
   constructor(validationConfig, formElement) {
     // в конструкторе получаю объект валидации и форму, далее работаю с формой
-    this._validationConfig = validationConfig;
     this._formElement = formElement;
     // присваиваю селекторы из объекта валидации контексту this
     this._formSelector = validationConfig.formSelector;
@@ -49,27 +48,42 @@ export class FormValidator {
     errorElement.classList.remove(this._errorClass);
   };
 
-  // функция переключения состояния кнопки
-  _toggleButtonState () {
-    // переменная содержит в себе то, что имеет невалидный инпут
-    // если какой-нибудь инпут невалидный, вернет true методом some
-    const hasInvalidInput = this._inputList.some(
-      (inputElement) => !inputElement.validity.valid
-    );
+  // метод содержит наличие инпутов с ошибками
+  // если какой-нибудь инпут невалидный, вернет true методом some
+  _hasInvalidInput () {
+    // возвращаю наружу коллекцию невалидных инпутов
+    return this._inputList.some((inputElement) => {
+      return !inputElement.validity.valid;
+    });
+  }
 
-    if (hasInvalidInput) {
-      // если хотя бы один инпут невалидный, кнопка заблокируется
-      this._submitButton.setAttribute('disabled', true);
-      this._submitButton.classList.add(this._inactiveButtonClass);
+  // метод отключения кнопки сабмита
+  disableSubmitButton () {
+    // если хотя бы один инпут невалидный, кнопка заблокируется
+    this._submitButton.disabled = true;
+    this._submitButton.classList.add(this._inactiveButtonClass);
+  };
+
+  // метод включения кнопки сабмита
+  activeSubmitButton () {
+    // если все инпуты валидны, кнопка разблокируется
+    this._submitButton.disabled = false;
+    this._submitButton.classList.remove(this._inactiveButtonClass);
+  };
+
+  // метод переключения состояния кнопки
+  _toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      //если инпут невалидный, блокирую кнопку сабмита
+      this.disableSubmitButton();
     } else {
-      // если все инпуты валидны, кнопка разблокируется
-      this._submitButton.removeAttribute('disabled');
-      this._submitButton.classList.remove(this._inactiveButtonClass);
+      //если инпуты валидны, активирую кнопку сабмита
+      this.activeSubmitButton();
     }
   };
 
   // накладываю слушателя на формы
-  _setEventListeners () {
+  _setEventListeners() {
     // нахожу у формы инпуты и кнопку сабмит
     this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
@@ -92,11 +106,4 @@ export class FormValidator {
   enableValidation () {
       this._setEventListeners();
   };
-
-  // метод сброса ошибок и данных инпутов, введенных пользователем
-  resetInputErrors () {
-    this._inputList.forEach((inputElement) => {
-      this._hideInputError(inputElement);
-    });
-  }
 };
