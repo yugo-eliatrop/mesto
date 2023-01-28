@@ -65,7 +65,7 @@ export class FormValidator {
   };
 
   // метод включения кнопки сабмита
-  activeSubmitButton () {
+  enableSubmitButton () {
     // если все инпуты валидны, кнопка разблокируется
     this._submitButton.disabled = false;
     this._submitButton.classList.remove(this._inactiveButtonClass);
@@ -78,7 +78,7 @@ export class FormValidator {
       this.disableSubmitButton();
     } else {
       //если инпуты валидны, активирую кнопку сабмита
-      this.activeSubmitButton();
+      this.enableSubmitButton();
     }
   };
 

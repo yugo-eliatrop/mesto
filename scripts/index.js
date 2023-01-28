@@ -121,9 +121,7 @@ function addCard (newCard) {
 
 // перебираю массив карточек
 initialCards.forEach((cardData) => {
-  // вызываю функцию создания карточки
-  createCard(cardData);
-  // вызываю функцию добавления карточки в DOM
+  // вызываю функцию создания и добавления карточки в DOM
   addCard(createCard(cardData));
 });
 
