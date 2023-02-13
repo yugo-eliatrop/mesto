@@ -6,6 +6,7 @@ export default class Card {
     this._link = cardData.link;
     this._templateSelector = templateSelector;
     this._openPopupImages = openPopupImages;
+    //this._handleCardClick = handleCardClick;
   }
 
   // получаю данные из разметки
@@ -27,6 +28,13 @@ export default class Card {
     this._element.remove();
     this._element = '';
   }
+
+  /* _handleCardClick() {
+    this._openPopupImages({
+      src: this._link,
+      name: this._name,
+    });
+  } */
 
   _setEventListeners() {
     this._cardImage = this._element.querySelector('.elements__card-image');
