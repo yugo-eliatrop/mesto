@@ -8,7 +8,7 @@ export const profileEditButton = document.querySelector('.profile__edit-button')
 export const profileAddButton = document.querySelector('.profile__add-button');
 
 // коллекция кнопок закрытия попапов по крестику
-//export const popupButtonCloseList = document.querySelectorAll('.popup__close-button');
+export const popupButtonCloseList = document.querySelectorAll('.popup__close-button');
 
 // форма добавления данных
 export const formEditElement = popupProfile.querySelector('.popup__form');
@@ -28,10 +28,6 @@ export const cardElement = document.querySelector('.elements__card');
 
 // коллекция попапов
 export const popupElementList = Array.from(document.querySelectorAll('.popup'));
-
-// коллекция кнопок закрытия попапов по крестику
-
-export const popupButtonCloseList = document.querySelectorAll('.popup__close-button');
 
 // создаю пустой контейнер, чтобы вложить карточки в секцию elements
 export const containerSelector = '.elements__cards';

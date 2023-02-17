@@ -9,111 +9,94 @@ import { initialCards } from "../utils/initialCards.js";
 import { validationConfig, popupProfile, popupPlace,
          popupImages, nameInput, jobInput, profileEditButton, namePlace, linkImage,
          profileAddButton, formEditElement, formNewCardElement, containerSelector,
+         profileTitle, profileSubtitle
 } from "../utils/constants.js";
 
 // инстанс попапа формы редактирования профиля
-const classPopupEditProfile = new PopupWithForm({
+const popupEditProfile = new PopupWithForm({
   popupSelector: popupProfile,
   handleSubmitForm: handleSubmitEditForm
 });
 
-classPopupEditProfile.setEventListeners();
+// слушатель открытия попапа редактирования профиля
+popupEditProfile.setEventListeners();
 
  // инстанс попапа формы добавления карточек
-const classPopupAddPlace = new PopupWithForm({
+const popupAddPlace = new PopupWithForm({
   popupSelector: popupPlace,
   handleSubmitForm: handleSubmitAddForm
 });
 
-/* const classPopupAddPlace = new PopupWithForm({
-  popupSelector: popupPlace,
-  handleSubmitForm: (item) => {
-    classCardList.addItem(createCard(item));
-    classPopupAddPlace.close();
-  }
-}); */
+// слушатель открытия попапа добавления карточки
+popupAddPlace.setEventListeners();
 
-classPopupAddPlace.setEventListeners();
-
-// создаю класс добавления карточек в DOM
-const classCardList = new Section({
+// создаю копию класса добавления карточек в DOM
+const cardListSection = new Section({
   items: initialCards,
   renderer: (item) => {
     // добавляю созданные карточки в DOM
-    classCardList.addItem(createCard(item));
+    cardListSection.addItem(createCard(item));
   }
 }, containerSelector);
 
-classCardList.renderItems();
+// вызываю метод рендеринга карточек класса Section
+cardListSection.renderItems();
 
 // инстанс попапа картинки
-const classPopupImages = new PopupWithImage(popupImages);
-classPopupImages.setEventListeners();
+const popupZoomImages = new PopupWithImage(popupImages);
 
 // функция открытия попапа картинки
-function openPopupImages(name, link) {
-  classPopupImages.open(name, link);
+function handleCardClick(name, link) {
+  popupZoomImages.open(name, link);
 }
 
 // слушатель открытия попапа картинки
-classPopupImages.addEventListener('click', () => {
-  classPopupImages.open(name, link);
-});
+popupZoomImages.setEventListeners();
 
 // инстанс ввода данных пользователем
-const classUserAboutInfo = new UserInfo({
-  nameSelector: nameInput,
-  jobSelector: jobInput,
+const userAboutInfo = new UserInfo({
+  nameSelector: profileTitle,
+  jobSelector: profileSubtitle,
   });
-
-// слушатель на открытие попапа редактирования профиля
-profileEditButton.addEventListener('click', () => {
-  classPopupEditProfile.open();
-});
 
 // слушатель на открытие попапа добавления карточек
 profileAddButton.addEventListener('click', () => {
-  classPopupAddPlace.open();
+  popupAddPlace.open();
 });
 
-function handleSubmitEditForm(dataUser) {
-  classUserAboutInfo.setUserInfo(dataUser);
-  classPopupEditProfile.close();
+function handleSubmitEditForm() {
+  userAboutInfo.setUserInfo({
+    dataName: nameInput.value,
+    dataJob: jobInput.value
+  });
+  popupEditProfile.close();
+  profileFormValidation.disableSubmitButton();
 }
 
 function handleSubmitAddForm() {
-  const cardData ={
+  const cardData = {
     name: namePlace.value,
     link: linkImage.value
   };
-  addCard(createCard(cardData));
+  cardListSection.addItem(createCard(cardData));
+  popupAddPlace.close();
+  cardFormValidation.disableSubmitButton();
 }
 
 // функция создания карточки
 function createCard (cardData) {
-  const newCard = new Card(cardData, '.template__elements', openPopupImages);
+  const newCard = new Card(cardData, '.template__elements', handleCardClick);
   return newCard.createCard();
 }
 
-// функция добавления карточки в DOM
-/* function addCard (newCard) {
-  cardsContainer.prepend(newCard);
-} */
-
-// перебираю массив карточек
-/* initialCards.forEach((cardData) => {
-  // вызываю функцию создания и добавления карточки в DOM
-  addCard(createCard(cardData));
-}); */
-
-
-/* // обработчики на открытие попапов
-profileEditButton.addEventListener('click', openEditPopup);
-profileAddButton.addEventListener('click', openAddPopup);
-
-// обработчики на сабмитные кнопки
-formEditElement.addEventListener('submit', handleSubmitEditForm);
-formNewCardElement.addEventListener('submit', handleSubmitAddForm); */
+// слушатель на открытие попапа редактирования профиля
+profileEditButton.addEventListener('click', () => {
+  // вызываю метод получения данных и кладу в переменную
+  const { dataName, dataJob } = userAboutInfo.getUserInfo();
+  nameInput.value = dataName;
+  jobInput.value = dataJob;
+  popupEditProfile.open();
+});
 
 // создаю два объекта валидации обоих форм
 // вызываю валидацию обоих форм

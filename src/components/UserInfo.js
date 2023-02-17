@@ -8,19 +8,17 @@ export class UserInfo {
   }
 
   getUserInfo() {
-    // создаю пустой объект, куда будут записываться
-    // данные пользователя
-    const dataUser = {};
-    // данные пользователя подставляются в форму при открытии
-    dataUser.name = this._dataName.textContent;
-    dataUser.job = this._dataJob.textContent;
-
-    return dataUser;
+    // возвращаю объект с данными пользователя,
+    // данные подставляются при открытии формы
+    return {
+      dataName: this._dataName.textContent,
+      dataJob: this._dataJob.textContent
+    };
   }
 
   // метод принимает данные пользователя и добавляет их на страницу
-  setUserInfo(dataUser) {
-    this._dataName.textContent = dataUser.name;
-    this._dataJob.textContent = dataUser.job;
+  setUserInfo({ dataName, dataJob }) {
+    this._dataName.textContent = dataName;
+    this._dataJob.textContent = dataJob;
   }
 }

@@ -1,12 +1,13 @@
 
 export default class Card {
 
-  constructor(cardData, templateSelector, openPopupImages) {
+  constructor(cardData, templateSelector, handleCardClick) {
+    // принимаю в конструктор данные карточки,
+    // селектор темплэйта и функцию открытия карточки
     this._name = cardData.name;
     this._link = cardData.link;
     this._templateSelector = templateSelector;
-    this._openPopupImages = openPopupImages;
-    //this._handleCardClick = handleCardClick;
+    this._handleCardClick = handleCardClick;
   }
 
   // получаю данные из разметки
@@ -29,20 +30,13 @@ export default class Card {
     this._element = '';
   }
 
-  /* _handleCardClick() {
-    this._openPopupImages({
-      src: this._link,
-      name: this._name,
-    });
-  } */
-
   _setEventListeners() {
     this._cardImage = this._element.querySelector('.elements__card-image');
     this._buttonLike = this._element.querySelector('.elements__like-button');
     this._cardDeleteButton = this._element.querySelector('.elements__delete-button');
 
     this._cardImage.addEventListener('click', () => {
-      this._openPopupImages(this._name, this._link);
+      this._handleCardClick(this._name, this._link);
     });
 
     this._buttonLike.addEventListener('click', () => {
