@@ -11,6 +11,7 @@ import { validationConfig, popupProfile, popupPlace,
          profileAddButton, formEditElement, formNewCardElement, containerSelector,
          profileTitle, profileSubtitle
 } from "../utils/constants.js";
+import './index.css'
 
 // инстанс попапа формы редактирования профиля
 const popupEditProfile = new PopupWithForm({
