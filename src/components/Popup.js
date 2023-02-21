@@ -7,8 +7,6 @@ export class Popup {
 
   _handleEscClose(evt) {
     if (evt.key === 'Escape') {
-      // нахожу открытый попап по всему документу
-      this._popupElement = document.querySelector('.popup_opened');
       // закрываю попап
       this.close();
     }

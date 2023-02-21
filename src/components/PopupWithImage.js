@@ -17,7 +17,7 @@ export class PopupWithImage extends Popup {
     this._popupImageContent.alt = name;
     this._popupFigcaption.textContent = name;
 
-    // вызываю метод открытия попапа картинки
-    super.open(name, link);
+    // вызываю родительский метод открытия попапа картинки
+    super.open();
   }
 }

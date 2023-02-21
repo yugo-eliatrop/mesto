@@ -1,10 +1,10 @@
 export class UserInfo {
 
-  constructor({ nameSelector, jobSelector }) {
+  constructor({ dataName, dataJob }) {
     // конструктор принимает объект с селекторами двух элементов:
     // элемента имени пользователя и информации о себе
-    this._dataName = nameSelector;
-    this._dataJob = jobSelector;
+    this._dataName = dataName;
+    this._dataJob = dataJob;
   }
 
   getUserInfo() {
@@ -12,7 +12,7 @@ export class UserInfo {
     // данные подставляются при открытии формы
     return {
       dataName: this._dataName.textContent,
-      dataJob: this._dataJob.textContent
+      dstaJob: this._dataJob.textContent
     };
   }
 

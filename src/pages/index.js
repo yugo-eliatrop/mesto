@@ -56,8 +56,8 @@ popupZoomImages.setEventListeners();
 
 // инстанс ввода данных пользователем
 const userAboutInfo = new UserInfo({
-  nameSelector: profileTitle,
-  jobSelector: profileSubtitle,
+  dataName: profileTitle,
+  dataJob: profileSubtitle,
   });
 
 // слушатель на открытие попапа добавления карточек
@@ -65,11 +65,10 @@ profileAddButton.addEventListener('click', () => {
   popupAddPlace.open();
 });
 
-function handleSubmitEditForm() {
-  userAboutInfo.setUserInfo({
-    dataName: nameInput.value,
-    dataJob: jobInput.value
-  });
+function handleSubmitEditForm(value) {
+  //popupEditProfile.setInputValues(userAboutInfo.setUserInfo(nameInput, jobInput));
+  userAboutInfo.setUserInfo(value.dataName, value.dataJob);
+  console.log(userAboutInfo);
   popupEditProfile.close();
   profileFormValidation.disableSubmitButton();
 }

@@ -27,7 +27,7 @@ export default class Card {
 
   _handleCardDelete() {
     this._element.remove();
-    this._element = '';
+    this._element = null;
   }
 
   _setEventListeners() {
@@ -54,7 +54,6 @@ export default class Card {
     this._element = this._getTemplate();
     this._setEventListeners();
 
-    this._cardImage = this._element.querySelector('.elements__card-image');
     this._cardText = this._element.querySelector('.elements__card-text');
 
     this._cardImage.src = this._link;

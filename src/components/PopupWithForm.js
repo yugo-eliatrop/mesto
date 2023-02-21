@@ -9,12 +9,12 @@ export class PopupWithForm extends Popup {
     // вызываю родительский конструктор
     this._handleSubmitForm = handleSubmitForm;
     this._formElement = this._popupElement.querySelector('.popup__form');
+    // достаю все элементы полей
+    this._inputList = this._formElement.querySelectorAll('.popup__input');
   }
 
   // метод собирает массив всех полей формы
   _getInputValues() {
-    // достаю все элементы полей
-    this._inputList = this._formElement.querySelectorAll('.popup__input');
     // создаю пустой объект
     this._formValues = {};
 
@@ -25,6 +25,13 @@ export class PopupWithForm extends Popup {
 
     // возвращаю данные в виде объекта
     return this._formValues;
+  }
+
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
+      input.value = data[input.name];
+    });
   }
 
   setEventListeners() {
