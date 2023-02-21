@@ -65,22 +65,22 @@ profileAddButton.addEventListener('click', () => {
   popupAddPlace.open();
 });
 
-function handleSubmitEditForm(value) {
-  //popupEditProfile.setInputValues(userAboutInfo.setUserInfo(nameInput, jobInput));
-  userAboutInfo.setUserInfo(value.dataName, value.dataJob);
-  console.log(userAboutInfo);
+function handleSubmitEditForm({ name, job }) {
+  userAboutInfo.setUserInfo({
+    dataName: name,
+    dataJob: job
+  });
   popupEditProfile.close();
-  profileFormValidation.disableSubmitButton();
+  profileFormValidation._toggleButtonState();
 }
 
-function handleSubmitAddForm() {
-  const cardData = {
-    name: namePlace.value,
-    link: linkImage.value
-  };
-  cardListSection.addItem(createCard(cardData));
+function handleSubmitAddForm({ placeName, linkPicture }) {
+  cardListSection.addItem(createCard({
+    name: placeName,
+    link: linkPicture
+  }));
   popupAddPlace.close();
-  cardFormValidation.disableSubmitButton();
+  cardFormValidation._toggleButtonState();
 }
 
 // функция создания карточки
@@ -93,8 +93,11 @@ function createCard (cardData) {
 profileEditButton.addEventListener('click', () => {
   // вызываю метод получения данных и кладу в переменную
   const { dataName, dataJob } = userAboutInfo.getUserInfo();
-  nameInput.value = dataName;
-  jobInput.value = dataJob;
+  popupEditProfile.setInputValues({ // подставляю в попап информацию из профиля
+    name: dataName,
+    job: dataJob
+  });
+
   popupEditProfile.open();
 });
 
