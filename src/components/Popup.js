@@ -40,7 +40,7 @@ export class Popup {
     });
 
     // навешиваю слушателя на закрытие попапа по клику на оверлэй
-    this._popupElement.addEventListener('click', (evt) => {
+    this._popupElement.addEventListener('mousedown', (evt) => {
       this._handlePopupOverlayClose(evt);
     });
   }

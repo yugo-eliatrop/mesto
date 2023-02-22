@@ -7,7 +7,7 @@ import { Section } from "../components/Section.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { initialCards } from "../utils/initialCards.js";
 import { validationConfig, popupProfile, popupPlace,
-         popupImages, nameInput, jobInput, profileEditButton, namePlace, linkImage,
+         popupImages, nameInput, jobInput, profileEditButton, namePlaceInput, linkImageInput,
          profileAddButton, formEditElement, formNewCardElement, containerSelector,
          profileTitle, profileSubtitle
 } from "../utils/constants.js";
@@ -60,18 +60,12 @@ const userAboutInfo = new UserInfo({
   dataJob: profileSubtitle,
   });
 
-// слушатель на открытие попапа добавления карточек
-profileAddButton.addEventListener('click', () => {
-  popupAddPlace.open();
-});
-
 function handleSubmitEditForm({ name, job }) {
   userAboutInfo.setUserInfo({
     dataName: name,
     dataJob: job
   });
   popupEditProfile.close();
-  profileFormValidation._toggleButtonState();
 }
 
 function handleSubmitAddForm({ placeName, linkPicture }) {
@@ -80,7 +74,6 @@ function handleSubmitAddForm({ placeName, linkPicture }) {
     link: linkPicture
   }));
   popupAddPlace.close();
-  cardFormValidation._toggleButtonState();
 }
 
 // функция создания карточки
@@ -97,8 +90,14 @@ profileEditButton.addEventListener('click', () => {
     name: dataName,
     job: dataJob
   });
-
+  profileFormValidation.disableSubmitButton();
   popupEditProfile.open();
+});
+
+// слушатель на открытие попапа добавления карточек
+profileAddButton.addEventListener('click', () => {
+  cardFormValidation.disableSubmitButton();
+  popupAddPlace.open();
 });
 
 // создаю два объекта валидации обоих форм
