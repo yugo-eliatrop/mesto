@@ -16,6 +16,7 @@ export const nameInput = popupProfile.querySelector('.popup__input_data_name');
 export const jobInput = popupProfile.querySelector('.popup__input_data_profession');
 export const profileTitle = document.querySelector('.profile__title');
 export const profileSubtitle = document.querySelector('.profile__subtitle');
+export const profileAvatar = document.querySelector('.profile__avatar');
 
 // форма добавления новых карточек
 export const formNewCardElement = popupPlace.querySelector('.popup__form');

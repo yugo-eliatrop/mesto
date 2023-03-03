@@ -1,10 +1,11 @@
 export class UserInfo {
 
-  constructor({ dataName, dataJob }) {
+  constructor({ dataName, dataAbout, dataAvatar }) {
     // конструктор принимает объект с селекторами двух элементов:
     // элемента имени пользователя и информации о себе
     this._dataNameElement = dataName;
-    this._dataJobElement = dataJob;
+    this._dataAboutElement = dataAbout;
+    this._dataAvatarElement = dataAvatar;
   }
 
   getUserInfo() {
@@ -12,13 +13,18 @@ export class UserInfo {
     // данные подставляются при открытии формы
     return {
       dataName: this._dataNameElement.textContent,
-      dataJob: this._dataJobElement.textContent
+      dataAbout: this._dataAboutElement.textContent,
+      dataAvatar: this._dataAvatarElement.src
     };
   }
 
   // метод принимает данные пользователя и добавляет их на страницу
-  setUserInfo({ dataName, dataJob }) {
+  setUserInfo({ dataName, dataAbout }) {
     this._dataNameElement.textContent = dataName;
-    this._dataJobElement.textContent = dataJob;
+    this._dataAboutElement.textContent = dataAbout;
+  }
+
+  setUserAvatar({ dataAvatar }) {
+    this._dataAvatarElement.src = dataAvatar;
   }
 }
