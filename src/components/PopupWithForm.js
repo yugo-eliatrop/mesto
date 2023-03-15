@@ -39,9 +39,21 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
       this._formElement.addEventListener('submit', (evt) => {
         evt.preventDefault();
+        // нахожу кнопку в событии сабмита,
+        // так как существует связь между событием сабмита и кнопкой,
+        // у которой форме назначен тип submit
+        const changeButtonText = evt.submitter.textContent;
+        // передаю кнопке текст при сохранении данных
+        evt.submitter.textContent = "Сохранение..."
         // добавляю вызов функции _handleSumitForm
-        // передаю ей объект - результат работы
-        this._handleSubmitForm(this._getInputValues());
+        // передаю ей объект - результат работы - собирает данные всех инпутов
+        this._handleSubmitForm(this._getInputValues())
+        .then(() => {
+          this.close();
+        })
+        .finally(() => {
+          evt.submitter.textContent = changeButtonText;
+        })
     });
   }
 

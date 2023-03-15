@@ -14,7 +14,7 @@ export class UserInfo {
     return {
       dataName: this._dataNameElement.textContent,
       dataAbout: this._dataAboutElement.textContent,
-      dataAvatar: this._dataAvatarElement.src
+      dataAvatar: this._dataAvatarElement.src,
     };
   }
 
@@ -24,7 +24,7 @@ export class UserInfo {
     this._dataAboutElement.textContent = dataAbout;
   }
 
-  setUserAvatar({ dataAvatar }) {
+  setUserAvatar(dataAvatar) {
     this._dataAvatarElement.src = dataAvatar;
   }
 }

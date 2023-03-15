@@ -23,13 +23,7 @@
               src="<%=require('./images/jacques-yves-cousteau.jpg')%>"
               alt="Жак-Ив Кусто в морской экспедиции"
             />
-            <button class="profile__avatar-button">
-              <!-- <img
-                class="profile__avatar-overlay"
-                src="<%=require('./images/vector-avatar.svg')"
-                alt="ручка редактирования аватарки"
-              /> -->
-            </button>
+            <button class="profile__avatar-button"></button>
           </div>
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -136,7 +130,8 @@
     <div class="popup popup_content_avatar">
       <div class="popup__overlay">
         <div class="popup__container">
-          <form class="popup__form">
+          <button type="button" class="popup__close-button"></button>
+          <form class="popup__form" id="avatarEdit" name="avatarEdit" novalidate>
             <h2 class="popup__title">Обновить аватар</h2>
             <input
               type="url"
@@ -145,6 +140,7 @@
               name="avatar"
               required
             />
+            <span class="popup__input-error" id="avatar-error"></span>
             <button
               disabled="disabled"
               type="submit"
@@ -156,10 +152,11 @@
         </div>
       </div>
     </div>
-    <div class="popup popup_content_confirm">
+    <div class="popup popup_delete_confirm">
       <div class="popup__overlay">
         <div class="popup__container">
-          <form class="popup__form">
+          <button type="button" class="popup__close-button"></button>
+          <form class="popup__form" id="formConfirm" name="formConfirm">
             <h2 class="popup__title">Вы уверены?</h2>
             <button type="submit" class="popup__save-button">Да</button>
           </form>

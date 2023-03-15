@@ -1,18 +1,17 @@
 export class Section {
-  constructor({ items, renderer }, containerSelector ) {
-    // конструктор принимает объект с двумя свойствами
+  constructor({ renderer }, containerSelector ) {
+    // конструктор принимает функцию рендеринга карточек
     // и селектор контейнера, куда добавлять карточки
-    this._initialCards = items;
+    /* this._items  = items; */
     this._renderer = renderer; // это функция renderer
-
     this._cardsContainer = document.querySelector(containerSelector);
   }
 
-  // метод отрисовки всех элементов
-  renderItems() {
-    this._initialCards.forEach(item => {
-      this._renderer(item);
-    })
+  // метод отрисовки всех карточек
+  renderItems(items) {
+    items.forEach((element) => {
+      this._renderer(element);
+    });
   }
 
   // метод добавления карточек в DOM
