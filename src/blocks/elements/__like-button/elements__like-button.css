@@ -1,5 +1,6 @@
 .elements__like-button {
-  width: 30%;
+  width: 22px;
+  height: 19px;
   background-image: url(../../../images/smile.svg);
   background-repeat: no-repeat;
   background-position: right;

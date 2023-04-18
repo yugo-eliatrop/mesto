@@ -1,3 +1,4 @@
+
 import { Popup } from "./Popup.js";
 
 export class PopupConfirmation extends Popup {
@@ -8,26 +9,19 @@ export class PopupConfirmation extends Popup {
     this._submitConfirmBtn = this._popupElement.querySelector('.popup__save-button');
   }
 
-  handleCard(cardElement) {
-    // вызываю родительский метод
-    /* super.open(); */
-    // нахожу карточку
-    this._cardElement = cardElement;
-    // нахожу айди карточки, которую нужно удалить
-    /* this._id = id; */
+  // метод отслеживания карточки, что нажали на урну
+  handleCard(newCard) {
+    this._newCard = newCard;
   }
 
   // устанавливаю обработчик сабмита попапа подтверждения
   setEventListeners() {
     super.setEventListeners();
-    this._submitConfirmBtn.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._handleSubmitForm(this._cardElement);
-    });
-  }
 
-  close() {
-    super.close();
-    this._formElement.reset();
+    this._formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+
+      this._handleSubmitForm(this._newCard)
+    });
   }
  }

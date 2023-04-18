@@ -57,6 +57,8 @@
               minlength="2"
               maxlength="40"
               required
+              pattern="^[a-zA-Z]+$"
+              data-error-message="Разрешены только латинские буквы"
             />
             <span class="popup__input-error" id="name-error"></span>
             <input
@@ -65,9 +67,11 @@
               id="about"
               name="about"
               placeholder="Исследователь океана"
-              required
               minlength="2"
               maxlength="200"
+              required
+              pattern="^[a-zA-Z]+$"
+              data-error-message="Разрешены только латинские буквы"
             />
             <span class="popup__input-error" id="about-error"></span>
             <button
@@ -90,23 +94,23 @@
             <input
               type="text"
               class="popup__input popup__input_data_place"
-              id="placeName"
-              name="placeName"
+              id="name"
+              name="name"
               placeholder="Название"
               required
               minlength="2"
               maxlength="30"
             />
-            <span class="popup__input-error" id="placeName-error"></span>
+            <span class="popup__input-error" id="name-error"></span>
             <input
               type="url"
               class="popup__input popup__input_link_image"
-              id="linkPicture"
-              name="linkPicture"
+              id="link"
+              name="link"
               placeholder="Ссылка на картинку"
               required
             />
-            <span class="popup__input-error" id="linkPicture-error"></span>
+            <span class="popup__input-error" id="link-error"></span>
             <button
               disabled="disabled"
               type="submit"
@@ -131,7 +135,12 @@
       <div class="popup__overlay">
         <div class="popup__container">
           <button type="button" class="popup__close-button"></button>
-          <form class="popup__form" id="avatarEdit" name="avatarEdit" novalidate>
+          <form
+            class="popup__form"
+            id="avatarEdit"
+            name="avatarEdit"
+            novalidate
+          >
             <h2 class="popup__title">Обновить аватар</h2>
             <input
               type="url"
@@ -157,8 +166,13 @@
         <div class="popup__container">
           <button type="button" class="popup__close-button"></button>
           <form class="popup__form" id="formConfirm" name="formConfirm">
-            <h2 class="popup__title">Вы уверены?</h2>
-            <button type="submit" class="popup__save-button">Да</button>
+            <h2 class="popup__title popup__title_question">Вы уверены?</h2>
+            <button
+              type="submit"
+              class="popup__save-button popup__save-button_confirm"
+            >
+              Да
+            </button>
           </form>
         </div>
       </div>
@@ -169,8 +183,10 @@
         <button class="elements__delete-button"></button>
         <div class="elements__text-container">
           <h2 class="elements__card-text"></h2>
-          <button class="elements__like-button"></button>
-          <span class="elements__like-number"></span>
+          <div class="elements__like-wrapper">
+            <button class="elements__like-button"></button>
+            <p class="elements__like-number"></p>
+          </div>
         </div>
       </li>
     </template>

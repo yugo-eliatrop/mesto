@@ -4,24 +4,23 @@ export default class Card {
     cardData,
     templateSelector,
     handleCardClick,
-    handleCardDelete,
-    userId,
-    setLike,
-    removeLike
+    handleCardDeleteClick,
+    handleCardLike,
+    userId
     ) {
     // принимаю в конструктор данные карточки,
     // селектор темплэйта и функцию открытия карточки
     this._name = cardData.name;
     this._link = cardData.link;
     this._templateSelector = templateSelector;
-    this._handleCardClick = handleCardClick;
-    this._handleCardDelete = handleCardDelete;
+    this._handleCardClick = handleCardClick; // открыть карточку
+    this._handleCardDeleteClick = handleCardDeleteClick; // удалить карточку
+    this._handleCardLike = handleCardLike;
     this._userId = userId; // айдишник того, кто добавил карточку
-    this._likes = cardData.likes; // массив лайков
-    this.setLike = setLike; // сам лайк
-    this.removeLike = removeLike;
-    this._ownerId = cardData.owner._id; // свойство всех карточек
-    this._id = cardData._id; // айди карточки
+    this._likes = cardData.likes; // массив лайков для отображения количества лайков
+    this._like = false; // состояние лайков
+    this._ownerId = cardData.owner._id; // айди чужих карточек
+    this._id = cardData._id; // айди всех карточек
   }
 
   // получаю данные из разметки
@@ -36,8 +35,13 @@ export default class Card {
   }
 
   // метод подсчета лайков
-  countLikes(res) {
-    this._countLikes.textContent = `${res.likes.length}`;
+  /* countLikes(response) {
+    this._countLikes.textContent = `${response._likes.length}`;
+  } */
+
+  countLikes(newLike) {
+    this._likes = newLike;
+    this._countLikes.textContent = this._likes.length;
   }
 
   // метод добавления лайка
@@ -50,21 +54,17 @@ export default class Card {
     this._buttonLike.classList.remove('elements__like-button_active');
   }
 
-  // метод события лайков и дизлайков
-  _handleCardLike() {
-    this._likes.forEach((elementId) => {
-      // если айди лайка равен твоему айди
-      if (elementId._id === this._userId) {
-        // устанавливаю лайк
-        this.setlike();
-      } else {
-        // убираю лайк
-        this.removelike();
-      }
-    });
+  // метод, меняющий состояние лайка,
+  // изначально задан false
+  toggleLikeState() {
+    this._like = !this._like;
   }
 
-  _handleCardDelete() {
+  get like() {
+    return this._like;
+  }
+
+  handleCardDelete() {
     this._element.remove();
     this._element = null;
   }
@@ -84,17 +84,23 @@ export default class Card {
 
     // измененный слушатель лайка
     this._buttonLike.addEventListener('click', () => {
-      this._handleCardLike();
+      this._handleCardLike(this);
     });
 
     this._cardDeleteButton.addEventListener('click', () => {
-      this._handleCardDelete(this._id);
+      this._handleCardDeleteClick(this);
     });
 
     // если не конретный пользователь добавил карточку, убираю кнопку удаления
     // так как нельзя удалять чужие карточки
-    if (this._ownerId !== this._userId) {
+    if (this._userId !== this._ownerId) {
       this._cardDeleteButton.remove();
+    }
+
+    if (this._id.like) {
+      this.setLike();
+    } else {
+      this.removeLike();
     }
   }
 
@@ -103,7 +109,6 @@ export default class Card {
     // записываю в разметку приватное поле _element
     this._element = this._getTemplate();
     this._setEventListeners();
-    this._handleCardLike();
 
     this._cardText = this._element.querySelector('.elements__card-text');
 

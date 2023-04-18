@@ -1,0 +1,8 @@
+.elements__like-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 11%;
+  margin: -3px 0 0 0;
+}

@@ -25,6 +25,13 @@ export class FormValidator {
       // если не валиден, то показываю ошибку
       this._showInputError(inputElement, inputElement.validationMessage);
     }
+
+    if (inputElement.validity.patternMismatch) {
+      // данные атрибута доступны у элемента инпута через ключевое слово dataset.
+      inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+    } else {
+      inputElement.setCustomValidity("");
+    }
   };
 
   _showInputError (inputElement, errorMessage) {

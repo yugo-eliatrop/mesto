@@ -1,3 +1,5 @@
+
+
 export class Api {
   // класс для работы с сервером
   constructor({ baseUrl, headers }) {
@@ -35,13 +37,13 @@ export class Api {
   }
 
   // метод редактирования профиля пользователя на сервере
-  setUserInfoProfile({ name, about }) {
+  setUserInfoProfile(data) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH", // метод для частичного обновления ресурса на сервере
       headers: this._headers,
       body: JSON.stringify({
-        dataName: name,
-        dataAbout: about
+        name: data.name,
+        about: data.about
       }),
     }).then((res) => {
       return this._checkStatusResponse(res);
@@ -49,22 +51,22 @@ export class Api {
   }
 
   // метод добавления новой карточки на сервере
-  addNewCard({ placeName, linkPicture }) {
-    return fetch(`${this._url}/cards`, {
+  createNewCard(data) {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: placeName,
-        link: linkPicture,
-      }),
+        name: data.name,
+        link: data.link,
+      })
     }).then((res) => {
       return this._checkStatusResponse(res);
     });
   }
 
   // метод получения лайков на сервере
-  addlikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+  addlikeCard(_id) {
+    return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: "PUT",
       headers: this._headers,
     }).then((res) => {
@@ -73,8 +75,8 @@ export class Api {
   }
 
   // метод удаления карточки на сервере
-  deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+  deleteCard(_id) {
+    return fetch(`${this._baseUrl}/cards/${_id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
@@ -83,12 +85,12 @@ export class Api {
   }
 
   // метод обновления аватара на сервере
-  editUserAvatar(avatar) {
+  editUserAvatar(data) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        dataAvatar: avatar,
+        avatar: data.avatar,
       }),
     }).then((res) => {
       return this._checkStatusResponse(res);
@@ -96,8 +98,8 @@ export class Api {
   }
 
   // метод снятия лайка на карточке на сервере
-  deleteCardLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+  deleteCardLike(_id) {
+    return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: 'DELETE',
       headers: this._headers,
     }).then((res) => {

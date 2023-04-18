@@ -1,30 +1,31 @@
 export class UserInfo {
 
-  constructor({ dataName, dataAbout, dataAvatar }) {
+  constructor({ name, about, avatar, _id }) {
     // конструктор принимает объект с селекторами двух элементов:
     // элемента имени пользователя и информации о себе
-    this._dataNameElement = dataName;
-    this._dataAboutElement = dataAbout;
-    this._dataAvatarElement = dataAvatar;
+    this._name = name;
+    this._about = about;
+    this._avatar = avatar;
+    this._id = _id;
   }
 
   getUserInfo() {
     // возвращаю объект с данными пользователя,
     // данные подставляются при открытии формы
     return {
-      dataName: this._dataNameElement.textContent,
-      dataAbout: this._dataAboutElement.textContent,
-      dataAvatar: this._dataAvatarElement.src,
+      name: this._name.textContent,
+      about: this._about.textContent,
+      avatar: this._avatar.src,
     };
   }
 
   // метод принимает данные пользователя и добавляет их на страницу
-  setUserInfo({ dataName, dataAbout }) {
-    this._dataNameElement.textContent = dataName;
-    this._dataAboutElement.textContent = dataAbout;
+  setUserInfo(data) {
+    this._name.textContent = data.name;
+    this._about.textContent = data.about;
   }
 
-  setUserAvatar(dataAvatar) {
-    this._dataAvatarElement.src = dataAvatar;
+  setUserAvatar(data) {
+    this._avatar.src = data.avatar;
   }
 }

@@ -26,27 +26,25 @@ import {
   profileTitle,
   profileSubtitle,
   profileAvatar,
-  formAvatarElement,
-  cardElement,
+  formAvatarElement
 } from "../utils/constants.js";
 import "./index.css";
-import { ids } from "webpack";
 let userId;
 
 // инстанс апи
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-60",
+  baseUrl: "https://mesto.nomoreparties.co/v1/plus-cohort-23",
   headers: {
-    authorization: "e976c748-5d06-45dd-8bfc-a73469c32b5f",
+    authorization: "8e6d025a-6054-4076-a0d4-21047d048aad",
     "Content-Type": "application/json",
   },
 });
 
 // инстанс ввода данных пользователем
 const userAboutInfo = new UserInfo({
-  dataName: profileTitle,
-  dataAbout: profileSubtitle,
-  dataAvatar: profileAvatar,
+  name: profileTitle,
+  about: profileSubtitle,
+  avatar: profileAvatar,
 });
 
 // инстанс попапа формы редактирования профиля
@@ -78,12 +76,12 @@ popupAddAvatar.setEventListeners();
 
 const popupConfirm = new PopupConfirmation({
   popupSelector: popupDeleteConfirm,
-  handleSubmitForm: (newCard) => {
+  handleSubmitForm: async (newCard) => {
     api
       .deleteCard(newCard._id)
       .then(() => {
-        newCard.remove();
-        popupConfirm.close();
+        newCard.handleCardDelete()
+        popupConfirm.close()
       })
       .catch((err) => {
         console.log(err);
@@ -92,8 +90,13 @@ const popupConfirm = new PopupConfirmation({
 });
 
 popupConfirm.setEventListeners();
-// создаю копию класса добавления карточек в DOM
 
+function handleCardDeleteClick(newCard) {
+  popupConfirm.handleCard(newCard);
+  popupConfirm.open();
+}
+
+// создаю копию класса добавления карточек в DOM
 const cardListSection = new Section(
   {
     renderer: (items) => {
@@ -106,11 +109,6 @@ const cardListSection = new Section(
 // инстанс попапа картинки
 const popupZoomImages = new PopupWithImage(popupImages);
 
-function handleCardDelete(cardElement) {
-  popupConfirm.handleCard(cardElement);
-  popupConfirm.open();
-}
-
 // функция открытия попапа картинки
 function handleCardClick(name, link) {
   popupZoomImages.open(name, link);
@@ -119,31 +117,69 @@ function handleCardClick(name, link) {
 // слушатель открытия попапа картинки
 popupZoomImages.setEventListeners();
 
-async function handleSubmitEditForm({ name, about }) {
+async function handleSubmitEditForm(data) {
   try {
-    const profileUser = await api.setUserInfoProfile({ name, about });
+    const profileUser = await api.setUserInfoProfile({
+      name: data.name,
+      about: data.about
+    });
+
     userAboutInfo.setUserInfo(profileUser);
   } catch (err) {
     console.log(err);
   }
 }
 
-async function handleSubmitAddForm({ placeName, linkPicture }) {
+// колбэк редактирования аватара
+async function handleSubmitAddAvatar(data) {
   try {
-    const newCardElement = await api.addNewCard({ placeName, linkPicture });
-    cardListSection.addItem(createCard(newCardElement));
+    const profileUser = await api.editUserAvatar({
+      avatar: data.avatar
+    });
+
+    userAboutInfo.setUserAvatar(profileUser);
   } catch (err) {
     console.log(err);
   }
 }
 
-// колбэк редактирования аватара
-async function handleSubmitAddAvatar(avatar) {
+async function handleSubmitAddForm(data) {
   try {
-    const profileUser = await api.editUserAvatar(avatar);
-    userAboutInfo.setUserAvatar(profileUser);
+    const newCard = await api.createNewCard({
+      name: data.name,
+      link: data.link
+    });
+
+    cardListSection.addItem(createCard(newCard));
   } catch (err) {
     console.log(err);
+  }
+}
+
+function handleCardLike(newCard) {
+  if (newCard.like) {
+    api.deleteCardLike(newCard._id)
+    .then((data) => {
+      newCard.countLikes(data.likes);
+      // меняю состояние лайков
+      newCard.toggleLikeState();
+      newCard.removeLike();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  } else {
+    api.addlikeCard(newCard._id)
+    .then((data) => {
+      newCard.setLike();
+      // вызываю метод плдсчитывающий количество лайков
+      newCard.countLikes(data.likes);
+      // меняю состояние лайков
+      newCard.toggleLikeState();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 }
 
@@ -153,55 +189,19 @@ function createCard(cardData) {
     cardData,
     ".template__elements",
     handleCardClick,
-    handleCardDelete,
-    userId,
-    // используя try..catch ловлю ошибки
-    async () => {
-      try {
-        const response = await api.addlikeCard(cardData._id);
-        newCard.setLike();
-        newCard.countLikes(response);
-      } catch (err) {
-        return console.log(err);
-      }
-    },
-    async () => {
-      try {
-        const response = await api.deleteCardLike(cardData._id);
-        newCard.removeLike();
-        newCard.countLikes(response);
-      } catch (err) {
-        return console.log(err);
-      }
-    },
-    () => {
-      popupConfirm.open(cardElement);
-    }
-  );
-  return newCard.createCard();
-}
+    handleCardDeleteClick,
+    handleCardLike,
+    userId);
 
-// промис для создания карточек
-/* Promise.all([api.getUserInfo(), api.getInitialCards()])
-.then((res) => {
-  const initialCards = res[0];
-  const user = res[1];
-
-  userAboutInfo.setUserAvatar(user.avatar);
-  userAboutInfo.setUserInfo(user);
-  userAboutInfo.id = user._id;
-
-  cardListSection.renderItems(createCard(initialCards, userAboutInfo.id));
-}).catch((err) => {
-  console.log((err));
-}); */
+    return newCard.createCard();
+  }
 
 // промис отрисовывает карточки с сервера
 // и данные пользователя
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([profileUser, initialCards]) => {
     userAboutInfo.setUserInfo(profileUser);
-    userAboutInfo.setUserAvatar(profileUser.avatar);
+    userAboutInfo.setUserAvatar(profileUser);
     userId = profileUser._id;
 
     cardListSection.renderItems(initialCards);
@@ -212,13 +212,9 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 
 // слушатель на открытие попапа редактирования профиля
 profileEditButton.addEventListener("click", () => {
-  // вызываю метод получения данных и кладу в переменную
-  const { dataName, dataAbout } = userAboutInfo.getUserInfo();
-  popupEditProfile.setInputValues({
-    // подставляю в попап информацию из профиля
-    name: dataName,
-    about: dataAbout,
-  });
+  // вызываю метод получения данных
+  popupEditProfile.setInputValues(userAboutInfo.getUserInfo());
+
   profileFormValidation.disableSubmitButton();
   popupEditProfile.open();
 });
@@ -231,10 +227,8 @@ profileAddButton.addEventListener("click", () => {
 
 // слушатель на открытие попапа редактирования аватара
 profileAvatarButton.addEventListener("click", () => {
-  const { dataAvatar } = userAboutInfo.getUserInfo();
-  popupAddAvatar.setInputValues({
-    avatar: dataAvatar,
-  });
+
+  popupAddAvatar.setInputValues(userAboutInfo.getUserInfo());
   avatarFormValidation.disableSubmitButton();
   popupAddAvatar.open();
 });
