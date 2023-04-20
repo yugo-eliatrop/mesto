@@ -19,19 +19,24 @@ export class FormValidator {
    const isValid = inputElement.validity.valid;
 
     if (isValid) {
+
+    this._hideInputError(inputElement);
+
+    } else if (inputElement.validity.patternMismatch) {
+      // данные атрибута доступны у элемента инпута через ключевое слово dataset.
+      inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+    } else {
+      this._showInputError(inputElement, inputElement.validationMessage);
+    }
+
+    inputElement.reportValidity();
+    /* if (isValid) {
       // если инпут валиден, то спрячю ошибку
       this._hideInputError(inputElement);
     } else {
       // если не валиден, то показываю ошибку
       this._showInputError(inputElement, inputElement.validationMessage);
-    }
-
-    if (inputElement.validity.patternMismatch) {
-      // данные атрибута доступны у элемента инпута через ключевое слово dataset.
-      inputElement.setCustomValidity(inputElement.dataset.errorMessage);
-    } else {
-      inputElement.setCustomValidity("");
-    }
+    } */
   };
 
   _showInputError (inputElement, errorMessage) {
