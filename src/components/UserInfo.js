@@ -9,7 +9,7 @@ export class UserInfo {
     this._id = _id;
   }
 
-  getUserInfo() {
+  get userInfo() {
     // возвращаю объект с данными пользователя,
     // данные подставляются при открытии формы
     return {
@@ -20,12 +20,12 @@ export class UserInfo {
   }
 
   // метод принимает данные пользователя и добавляет их на страницу
-  setUserInfo(data) {
+  set userInfo(data) {
     this._name.textContent = data.name;
     this._about.textContent = data.about;
   }
 
-  setUserAvatar(data) {
+  set userAvatar(data) {
     this._avatar.src = data.avatar;
   }
 }
